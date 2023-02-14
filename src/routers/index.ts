@@ -5,6 +5,6 @@ import { userRouter } from "./userRouter"
 const router = Router()
 
 router.use('/user', userRouter)
-router.use("/login", loginRouter)
+router.use('/login', loginRouter)
 
 export { router }
