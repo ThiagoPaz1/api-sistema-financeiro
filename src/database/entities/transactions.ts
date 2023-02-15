@@ -19,7 +19,7 @@ export class Transactions {
   created_at?: Date;
 
   @Column()
-  userId?: number;
+  userId?: number; // TODO implementar relação -> chave extrangeira
 }
 
 class Payment {
