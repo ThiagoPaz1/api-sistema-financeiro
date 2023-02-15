@@ -9,6 +9,6 @@ export const dataSource: DataSourceOptions = {
     database: process.env.DB_NAME,
     synchronize: true,
     entities: [`${__dirname}/**/database/entities/*.{ts,js}`],
-	  migrations: [`${__dirname}/**/database/migrations/*.{ts,js}`],
+	migrations: [`${__dirname}/**/database/migrations/*.{ts,js}`],
     subscribers: [],
 }

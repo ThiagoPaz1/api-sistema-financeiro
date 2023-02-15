@@ -11,7 +11,7 @@ services:
       - .:/www/usr/node/app
     command: npm run start:dev
     ports:
-      - '8009:8009'
+      - '8089:8089'
     restart: always
     depends_on:
       - db
