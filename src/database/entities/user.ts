@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity('tb_user')
 export class User {
   @PrimaryGeneratedColumn()
-  id!: string
+  id?: string
 
   @Column()
   name!: string;
@@ -15,5 +15,5 @@ export class User {
   password!: string;
 
   @Column()
-  balance!: number;
+  balance?: number;
 }

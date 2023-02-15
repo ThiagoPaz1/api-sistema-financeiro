@@ -2,7 +2,10 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('tb_transactios')
 export class Transactions {
-  @PrimaryGeneratedColumn('increment')
+  @PrimaryGeneratedColumn()
+  id?: string;
+
+  @Column()
   tile!: string;
 
   @Column()
