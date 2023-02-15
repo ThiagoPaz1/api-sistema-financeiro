@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('tb_user')
-export class User {
+@Entity('tb_transactios')
+export class Transactions {
   @PrimaryGeneratedColumn('increment')
   tile!: string;
 
@@ -11,8 +11,9 @@ export class User {
   @Column()
   category!: string;
 
+  // TODO implementar o array de Pagamentos Débito e Crédito para o type
   @Column()
-  type!: Payment[];
+  type!: string; // postgres não está aceitando arrays, depois vou verificar o motivo
 
   @Column()
   created_at?: Date;

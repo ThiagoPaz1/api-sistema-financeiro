@@ -1,15 +1,15 @@
-import express, { Express } from 'express'
+import express, { Application } from 'express'
 import cors from 'cors';
-import { router } from './routers'
 import { AppDataSource } from './data-source';
+import { router } from './routers';
 
 class App {
-  app: Express;
+  app: Application;
   constructor() {
+    AppDataSource.initialize();
     this.app = express()
     this.middlewares()
     this.routes()
-    AppDataSource.initialize();
   }
 
   middlewares() {
