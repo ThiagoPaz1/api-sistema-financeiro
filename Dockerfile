@@ -6,7 +6,7 @@ WORKDIR /www/usr/node/app
 
 COPY . .
 
-EXPOSE 8009
+EXPOSE 8089
 
 RUN npm i
 
