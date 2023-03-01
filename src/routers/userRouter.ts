@@ -6,9 +6,10 @@ const userRouter = Router();
 // import { validations } from "../modules/user/controllers/middlewares"
 
 userRouter.get("/:id", UserController.userById);
+userRouter.get("/", UserController.index);
 userRouter.post("/create",  UserController.create);
 userRouter.post("/logar",  UserController.login);
-userRouter.put("/update:id", UserController.update);
+userRouter.put("/update/:id", UserController.update);
 userRouter.delete("/delete/:id", UserController.delete);
 
 // userRouter.post("/", validations.validationFields, userController.newUser)
