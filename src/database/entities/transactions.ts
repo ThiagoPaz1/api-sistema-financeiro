@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinTable } from 'typeorm';
+import { User } from './user';
 
 @Entity('tb_transactios')
 export class Transactions {
@@ -15,20 +16,13 @@ export class Transactions {
   category!: string;
 
   // TODO implementar o array de Pagamentos Débito e Crédito para o type
-  @Column()
+  @Column({ type: 'enum', enum: ['debit', 'credit'] })
   type!: string; // postgres não está aceitando arrays, depois vou verificar o motivo
 
   @Column()
   created_at?: Date;
 
   @Column()
-  userId?: number; // TODO implementar relação -> chave extrangeira
-}
-
-class Payment {
-  @Column()
-  debit?: string;
-
-  @Column()
-  credit?: string;
+  @ManyToOne(() => User, (user) => user.id)
+  userId?: string;
 }
