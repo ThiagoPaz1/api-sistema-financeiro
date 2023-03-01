@@ -1,21 +1,6 @@
 version: '3'
 
 services:
-  app:
-    build:
-        context: .
-        dockerfile: ./Dockerfile
-    container_name: api-sistema-financeiro
-    tty: true
-    volumes:
-      - .:/www/usr/node/app
-    command: npm run start:dev
-    ports:
-      - '8009:8009'
-    restart: always
-    depends_on:
-      - db
-
   db:
     container_name: db-sistema-financeiro
     image: postgres
