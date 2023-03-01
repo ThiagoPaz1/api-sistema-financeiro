@@ -3,7 +3,7 @@ import { userRepository } from '../repository/userRepository';
 
 class UserController {
     async index(req: Request, res: Response) {}
-
+    
     async userById(req: Request, res: Response) {
         try {
             const { id } = req.params;
@@ -25,6 +25,24 @@ class UserController {
         } catch (e: any | unknown) {
           throw new Error(e.message);
         } 
+    }
+
+    async login(req: Request, res: Response){
+        try {
+          const {email, password} = req.body;
+          const user = await userRepository.find({where:{
+            email,
+            password
+          }})
+          if(!user){
+            return res.json({message:"Usuario não existe"})
+          }
+          return res.json("login efetuado")
+          
+        } catch (error) {
+          console.log(error)
+          
+        }
     }
 
     async update(req: Request, res: Response) {
