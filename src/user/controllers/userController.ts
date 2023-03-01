@@ -2,7 +2,14 @@ import { Request, Response} from "express";
 import { userRepository } from '../repository/userRepository';
 
 class UserController {
-    async index(req: Request, res: Response) {}
+    async index(req: Request, res: Response) {
+      try {
+        const findAll = await userRepository.find();
+        return res.status(201).json(findAll)
+      } catch (error) {
+        console.log(error)
+      }
+    }
     
     async userById(req: Request, res: Response) {
         try {
@@ -35,25 +42,50 @@ class UserController {
             password
           }})
           if(!user){
-            return res.json({message:"Usuario não existe"})
+            return res.status(401).json({message:"Usuario não existe"})
           }
-          return res.json("login efetuado")
+          return res.status(200).json("login efetuado")
           
         } catch (error) {
           console.log(error)
-          
         }
-    }
+      }
 
     async update(req: Request, res: Response) {
-        const user = req.body;
-
+      try {
+          const {id} = req.params;
+          const {name,email,password,balance} = req.body;
+          const userUpdate = await userRepository.update({
+              id
+          },
+          {
+              name,
+              email,
+              password,
+              balance
+          })
+        
+         return res.status(201).json(userUpdate)
+      } catch (error) {
+          console.log(error)
+      }
+    
     }
 
-    async delete(){
-
+    async delete(req: Request, res: Response){
+        try {
+          const { id } = req.params;
+          const delUser = userRepository.delete(id);
+          return res.status(200).json("usuario deletado com sucesso");
+      } catch (error) {
+          console.log(error)    
+        }
     }
 
 };
 
 export default new UserController();
+
+
+
+
