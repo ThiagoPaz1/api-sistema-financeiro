@@ -3,6 +3,18 @@ import { userRepository } from '../repository/userRepository';
 
 class UserController {
     async index(req: Request, res: Response) {}
+
+    async userById(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+            const findUser = await userRepository.findOne({ where: { id } });
+
+            return res.status(200).json(findUser);
+        } catch (e: any | unknown) {
+            throw new Error(e.message);
+        }
+    }
+
     async create(req: Request, res: Response) {
         try {
           const user = req.body;
@@ -14,10 +26,13 @@ class UserController {
           throw new Error(e.message);
         } 
     }
-    update(){
+
+    async update(req: Request, res: Response) {
+        const user = req.body;
 
     }
-    delete(){
+
+    async delete(){
 
     }
 

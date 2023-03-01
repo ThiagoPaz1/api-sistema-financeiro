@@ -5,7 +5,7 @@ const userRouter = Router();
 // import { userController } from "../modules/user/controllers"
 // import { validations } from "../modules/user/controllers/middlewares"
 
-userRouter.get("/", UserController.index);
+userRouter.get("/:id", UserController.userById);
 userRouter.post("/create",  UserController.create);
 userRouter.put("/update:id", UserController.update);
 userRouter.delete("/delete/:id", UserController.delete);
