@@ -7,14 +7,13 @@ export class Transactions {
   id?: number;
 
   @Column()
-  value!: string;
+  value?: string;
 
   @Column()
-  category!: string;
+  category?: string;
 
-  // TODO implementar o array de Pagamentos Débito e Crédito para o type
-  @Column()
-  type!: string; // postgres não está aceitando arrays, depois vou verificar o motivo
+  @Column({ type: 'enum', enum: ['debit', 'credit']})
+  type?: string;
 
   @Column()
   created_at?: Date;

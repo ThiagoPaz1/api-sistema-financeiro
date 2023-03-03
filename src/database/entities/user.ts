@@ -15,7 +15,7 @@ export class User {
   @Column({ unique: true })
   password!: string;
 
-  @Column()
+  @Column({ nullable: true })
   balance?: number;
 
   @OneToMany(() => Transactions, (transaction) => transaction.userId)
