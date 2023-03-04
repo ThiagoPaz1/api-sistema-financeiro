@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import { verify } from 'jsonwebtoken';
+import { verify, sign } from 'jsonwebtoken';
 
 import 'dotenv/config';
-import { userRepository } from '../user/repository/userRepository';
 
-export default async (req: Request, res: Response, next: NextFunction) => {
+export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { authorization } = req.headers;
 
@@ -22,21 +21,16 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
     const data = verify(token, secretKey);
 
-    req.user = data;
+    res.locals.jwtPayload = data;
 
-    const user = await userRepository.findOneBy({
-      id,
-      email,
+    const { id, email } = data as any; // não façam isso galera, é só pra funcionar, depois a gente pensa numa coisa melhor!
+
+    const newToken = sign({ id, email }, secretKey, {
+      expiresIn: '1d',
     });
 
-    if (!user) {
-      return res.status(401).json({
-        errors: ['Usuário inválido!'],
-      });
-    }
+    res.setHeader('token', newToken);
 
-    req.userId = id;
-    req.userEmail = email;
     return next();
   } catch (e) {
     return res.status(401).json({
