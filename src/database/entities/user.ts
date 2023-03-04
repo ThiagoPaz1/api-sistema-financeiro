@@ -1,12 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Transactions } from './transactions';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity('tb_user')
 export class User {
-  static create(arg0: {}) {
-      throw new Error('Method not implemented.');
-  }
   @PrimaryGeneratedColumn()
-  id?: string
+  id?: string;
 
   @Column()
   name!: string;
@@ -17,6 +15,9 @@ export class User {
   @Column({ unique: true })
   password!: string;
 
-  @Column()
+  @Column({ nullable: true })
   balance?: number;
+
+  @OneToMany(() => Transactions, (transaction) => transaction.userId)
+  transactions?: Transactions[];
 }
