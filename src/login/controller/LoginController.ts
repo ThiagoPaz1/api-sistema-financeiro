@@ -1,8 +1,30 @@
 import { Request, Response } from 'express';
 import { sign } from 'jsonwebtoken';
-import { userRepository } from '../user/repository/userRepository';
+import { userRepository } from '../../user/repository/userRepository';
 
-class TokenController {
+class loginController{
+  async login(req: Request, res: Response){
+    try {
+      const {email, password} = req.body;
+      const user = await userRepository.find({where:{
+        email,
+        password
+      }})
+      if(!user){
+        return res.status(401).json({message:"Usuario não existe"})
+      }
+      return res.status(200).json("login efetuado")
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+
+
+
+/*class TokenController {
   async store(req: Request, res: Response) {
     const { email = '', password = '' } = req.body;
 
@@ -27,6 +49,7 @@ class TokenController {
 
     return res.json({ token });
   }
-}
+}*/
 
-export default new TokenController();
+
+export default new loginController();
