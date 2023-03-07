@@ -1,5 +1,6 @@
 import { Request, Response} from "express";
 import { userRepository } from '../repository/userRepository';
+import * as bcrypt from "bcrypt";
 
 class UserController {
     async index(req: Request, res: Response) {
@@ -24,8 +25,21 @@ class UserController {
 
     async create(req: Request, res: Response) {
         try {
-          const user = req.body;
-          const create = userRepository.create(user);
+          const { name, email, password, } = req.body;
+
+          if (!email) throw new Error('Email incorrect!');
+
+          const userAlreadyExists = await userRepository.findOneByOrFail({ email });
+
+          if (!userAlreadyExists) throw new Error('User Already Exists');
+
+          const passwordHash = bcrypt.hashSync(password, 12);
+
+          const create = userRepository.create({
+            name,
+            email,
+            password: passwordHash,
+          });
           const result = await userRepository.save(create);
 
           return res.status(201).json(result);
