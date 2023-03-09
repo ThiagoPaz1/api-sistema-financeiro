@@ -1,6 +1,6 @@
 import { Request, Response} from "express";
 import { userRepository } from '../repository/userRepository';
-import { hashSync } from "bcryptjs";
+import { UserService } from "../services/UserService";
 
 class UserController {
     async index(req: Request, res: Response) {
@@ -27,18 +27,15 @@ class UserController {
         try {
           const { name, email, password, } = req.body;
 
-          if (!email) throw new Error('Email incorrect!');
+          const createUser = new UserService();
 
-          const passwordHash = hashSync(password, 12);
-
-          const create = userRepository.create({
+          const user = await createUser.create({
             name,
             email,
-            password: passwordHash,
+            password
           });
-          const result = await userRepository.save(create);
 
-          return res.status(201).json(result);
+          return res.status(201).json(user);
         } catch (e: any | unknown) {
           throw new Error(e.message);
         } 
@@ -64,7 +61,7 @@ class UserController {
     async update(req: Request, res: Response) {
       try {
           const {id} = req.params;
-          const {name,email,password,balance} = req.body;
+          const { name, email, password, balance } = req.body;
           const userUpdate = await userRepository.update({
               id
           },
@@ -75,7 +72,7 @@ class UserController {
               balance
           })
         
-         return res.status(201).json(userUpdate)
+         return res.status(201).json(userUpdate);
       } catch (error) {
           console.log(error)
       }
