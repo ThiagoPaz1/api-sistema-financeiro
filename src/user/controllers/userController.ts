@@ -1,5 +1,6 @@
 import { Request, Response} from "express";
 import { userRepository } from '../repository/userRepository';
+import { UserService } from "../services/UserService";
 
 class UserController {
     async index(req: Request, res: Response) {
@@ -24,11 +25,17 @@ class UserController {
 
     async create(req: Request, res: Response) {
         try {
-          const user = req.body;
-          const create = userRepository.create(user);
-          const result = await userRepository.save(create);
+          const { name, email, password, } = req.body;
 
-          return res.status(201).json(result);
+          const createUser = new UserService();
+
+          const user = await createUser.create({
+            name,
+            email,
+            password
+          });
+
+          return res.status(201).json(user);
         } catch (e: any | unknown) {
           throw new Error(e.message);
         } 
@@ -54,18 +61,20 @@ class UserController {
     async update(req: Request, res: Response) {
       try {
           const {id} = req.params;
-          const {name,email,password,balance} = req.body;
-          const userUpdate = await userRepository.update({
-              id
-          },
+          const { name, email, password, balance } = req.body;
+
+          const findOne = await userRepository.findOneBy({ id });
+
+          const userUpdate = await userRepository.save(
           {
-              name,
-              email,
-              password,
-              balance
-          })
+            ...findOne,
+            name,
+            email,
+            password,
+            balance
+          });
         
-         return res.status(201).json(userUpdate)
+         return res.status(200).json(userUpdate);
       } catch (error) {
           console.log(error)
       }
@@ -75,8 +84,8 @@ class UserController {
     async delete(req: Request, res: Response){
         try {
           const { id } = req.params;
-          const delUser = userRepository.delete(id);
-          return res.status(200).json("usuario deletado com sucesso");
+          await userRepository.delete(id);
+          return res.status(204).json("usuario deletado com sucesso");
       } catch (error) {
           console.log(error)    
         }
