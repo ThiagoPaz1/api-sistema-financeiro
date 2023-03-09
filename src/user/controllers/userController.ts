@@ -62,17 +62,19 @@ class UserController {
       try {
           const {id} = req.params;
           const { name, email, password, balance } = req.body;
-          const userUpdate = await userRepository.update({
-              id
-          },
+
+          const findOne = await userRepository.findOneBy({ id });
+
+          const userUpdate = await userRepository.save(
           {
-              name,
-              email,
-              password,
-              balance
-          })
+            ...findOne,
+            name,
+            email,
+            password,
+            balance
+          });
         
-         return res.status(201).json(userUpdate);
+         return res.status(200).json(userUpdate);
       } catch (error) {
           console.log(error)
       }
@@ -82,8 +84,8 @@ class UserController {
     async delete(req: Request, res: Response){
         try {
           const { id } = req.params;
-          const delUser = userRepository.delete(id);
-          return res.status(200).json("usuario deletado com sucesso");
+          await userRepository.delete(id);
+          return res.status(204).json("usuario deletado com sucesso");
       } catch (error) {
           console.log(error)    
         }

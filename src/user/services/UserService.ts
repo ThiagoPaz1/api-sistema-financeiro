@@ -1,5 +1,5 @@
 import { hashSync } from 'bcryptjs';
-import { UserRequest, UserUpdateRequest } from '../../interfaces/userRequest';
+import { UserRequest } from '../../interfaces/userRequest';
 import { userRepository } from '../repository/userRepository';
 
 
