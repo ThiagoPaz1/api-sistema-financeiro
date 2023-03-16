@@ -1,34 +1,24 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { User } from './user';
 
-@Entity('tb_transactios')
+@Entity('tb_transaction')
 export class Transactions {
   @PrimaryGeneratedColumn()
-  id?: string;
+  id?: number;
 
   @Column()
-  tile!: string;
+  value?: string;
 
   @Column()
-  value!: string;
+  category?: string;
 
-  @Column()
-  category!: string;
-
-  // TODO implementar o array de Pagamentos Débito e Crédito para o type
-  @Column()
-  type!: string; // postgres não está aceitando arrays, depois vou verificar o motivo
+  @Column({ type: 'enum', enum: ['debit', 'credit']})
+  type?: string;
 
   @Column()
   created_at?: Date;
 
-  @Column()
-  userId?: number; // TODO implementar relação -> chave extrangeira
+  @ManyToOne(() => User, (user) => user.transactions)
+  userId?: User;
 }
 
-class Payment {
-  @Column()
-  debit?: string;
-
-  @Column()
-  credit?: string;
-}
