@@ -19,7 +19,8 @@
     "pg": "^8.4.0",
     "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "^4.6.0",
-    "typeorm": "0.3.10"
+    "typeorm": "0.3.10",
+    "yup": "^1.0.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
