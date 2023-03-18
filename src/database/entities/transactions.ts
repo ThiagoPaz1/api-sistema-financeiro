@@ -10,22 +10,16 @@ export class Transactions {
   @Column()
   @IsNumber()
   @IsOptional()
-  value?: number;
+  value!: number;
 
   @Column()
   @IsString()
   @IsOptional()
   category?: string;
 
-  @Column({ type: 'enum', enum: ['debit', 'credit']})
+  @Column({ type: 'enum', enum: ['debit', 'credit'] })
   @IsOptional()
   @IsString()
-  value?: string;
-
-  @Column()
-  category?: string;
-
-  @Column({ type: 'enum', enum: ['debit', 'credit']})
   type?: string;
 
   @Column()
