@@ -5,6 +5,7 @@ import AuthUserController from '../user/controllers/AuthUserController';
 
 const userRouter = Router();
 
+
 userRouter.get('user/:id', verifyToken, UserController.userById);
 userRouter.get('user', verifyToken, UserController.index);
 userRouter.post('user/create', UserController.create);

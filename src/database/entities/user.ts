@@ -2,7 +2,6 @@ import { Transactions } from './transactions';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { IsEmail, IsNumber, IsString, IsStrongPassword, MaxLength, MinLength } from 'class-validator';
 
-
 @Entity('tb_user')
 export class User {
   @PrimaryGeneratedColumn()

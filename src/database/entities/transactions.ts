@@ -20,6 +20,12 @@ export class Transactions {
   @Column({ type: 'enum', enum: ['debit', 'credit']})
   @IsOptional()
   @IsString()
+  value?: string;
+
+  @Column()
+  category?: string;
+
+  @Column({ type: 'enum', enum: ['debit', 'credit']})
   type?: string;
 
   @Column()
