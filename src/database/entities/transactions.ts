@@ -1,3 +1,4 @@
+import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from './user';
 
@@ -7,15 +8,22 @@ export class Transactions {
   id?: number;
 
   @Column()
-  value?: string;
+  @IsNumber()
+  @IsOptional()
+  value!: number;
 
   @Column()
+  @IsString()
+  @IsOptional()
   category?: string;
 
-  @Column({ type: 'enum', enum: ['debit', 'credit']})
+  @Column({ type: 'enum', enum: ['debit', 'credit'] })
+  @IsOptional()
+  @IsString()
   type?: string;
 
   @Column()
+  @IsDate()
   created_at?: Date;
 
   @ManyToOne(() => User, (user) => user.transactions)

@@ -1,9 +1,9 @@
+import { verifyToken } from './../middleware/loginRequired';
 import { Router } from "express";
 import UserController from '../user/controllers/userController';
+import AuthUserController from '../user/controllers/AuthUserController';
 
 const userRouter = Router();
-// import { userController } from "../modules/user/controllers"
-// import { validations } from "../modules/user/controllers/middlewares"
 
 userRouter.get("/:id", UserController.userById);
 userRouter.get("/", UserController.index);

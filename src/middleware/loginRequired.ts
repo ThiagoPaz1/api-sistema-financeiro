@@ -1,7 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
+<<<<<<< HEAD
 import { verify, sign } from 'jsonwebtoken';
 
 import 'dotenv/config';
+=======
+import { verify } from 'jsonwebtoken';
+
+import 'dotenv/config';
+import { PayLoad } from '../interfaces/payload';
+>>>>>>> 25910bef0c7cb76932dc3f74b5c6672b935b9c09
 
 export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -10,7 +17,11 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
     if (!authorization) {
       return res.status(401).json({
         errors: ['Login requerido!'],
+<<<<<<< HEAD
       });
+=======
+      }).end();
+>>>>>>> 25910bef0c7cb76932dc3f74b5c6672b935b9c09
     }
 
     const secretKey = process.env.TOKEN_SECRET as string;
@@ -19,6 +30,7 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
 
     if (!token) return res.status(401).send({ message: 'Token não fornecido!' });
 
+<<<<<<< HEAD
     const data = verify(token, secretKey);
 
     res.locals.jwtPayload = data;
@@ -30,6 +42,11 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
     });
 
     res.setHeader('token', newToken);
+=======
+    const { sub } = verify(token, secretKey) as PayLoad;
+
+    req.user_id = sub;
+>>>>>>> 25910bef0c7cb76932dc3f74b5c6672b935b9c09
 
     return next();
   } catch (e) {
