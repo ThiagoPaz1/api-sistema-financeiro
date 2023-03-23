@@ -30,6 +30,10 @@ POST localhost:8189/login/session
 POST localhost:8189/user/session 
 ```
 **Você vai ter que passar o mesmo usuário e senha para resgatar o token**:
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `corpo da requisição` | `json` | **Obrigatório**. email e password|
+
 ```json
 {
   "email": "ola@mundo.com",
