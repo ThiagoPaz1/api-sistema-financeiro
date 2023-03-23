@@ -4,7 +4,7 @@ import { userRouter } from './userRouter';
 
 const router = Router();
 
-router.use('/', userRouter);
-router.use('/', loginRouter);
+router.use(userRouter);
+router.use(loginRouter);
 
 export { router };
