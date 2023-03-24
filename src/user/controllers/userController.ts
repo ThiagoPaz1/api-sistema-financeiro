@@ -15,7 +15,12 @@ class UserController {
     async userById(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            const findUser = await userRepository.findOne({ where: { id } });
+            const findUser = await userRepository.findOne({
+               where: { id },
+               relations: {
+                transactions: true,
+               } 
+              });
 
             return res.status(200).json(findUser);
         } catch (e: any | unknown) {
@@ -44,10 +49,16 @@ class UserController {
     async login(req: Request, res: Response){
         try {
           const {email, password} = req.body;
-          const user = await userRepository.find({where:{
+          const user = await userRepository.find({
+            where: {
             email,
             password
-          }})
+          },
+          relations: {
+            transactions: true,
+          }
+        });
+
           if(!user){
             return res.status(401).json({message:"Usuario não existe"})
           }
