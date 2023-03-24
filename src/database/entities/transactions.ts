@@ -5,7 +5,7 @@ import { User } from './user';
 @Entity('tb_transaction')
 export class Transactions {
   @PrimaryGeneratedColumn()
-  id?: number;
+  id?: string;
 
   @Column()
   @IsNumber()
@@ -20,7 +20,7 @@ export class Transactions {
   @Column({ type: 'enum', enum: ['debit', 'credit'] })
   @IsOptional()
   @IsString()
-  type?: string;
+  type?: number;
 
   @Column()
   @IsDate()

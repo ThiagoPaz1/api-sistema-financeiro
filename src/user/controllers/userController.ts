@@ -6,9 +6,9 @@ class UserController {
     async index(req: Request, res: Response) {
       try {
         const findAll = await userRepository.find();
-        return res.status(201).json(findAll)
-      } catch (error) {
-        console.log(error)
+        return res.status(200).json(findAll)
+      } catch (e: any | unknown) {
+        return console.error(e.message)
       }
     }
     
@@ -24,7 +24,7 @@ class UserController {
 
             return res.status(200).json(findUser);
         } catch (e: any | unknown) {
-            throw new Error(e.message);
+            return console.error(e.message);
         }
     }
 
@@ -42,7 +42,7 @@ class UserController {
 
           return res.status(201).json(user);
         } catch (e: any | unknown) {
-          throw new Error(e.message);
+          return console.error(e.message);
         } 
     }
 
@@ -64,15 +64,15 @@ class UserController {
           }
           return res.status(200).json("login efetuado")
           
-        } catch (error) {
-          console.log(error)
+        } catch (e: any | unknown) {
+          console.error(e.message)
         }
       }
 
     async update(req: Request, res: Response) {
       try {
-          const {id} = req.params;
-          const {name,email,password,balance} = req.body;
+          const { id } = req.params;
+          const { name, email, password, balance } = req.body;
           const userUpdate = await userRepository.update({
               id
           },
@@ -84,8 +84,8 @@ class UserController {
           })
         
          return res.status(201).json(userUpdate)
-      } catch (error) {
-          console.log(error)
+      } catch (e: any | unknown) {
+          console.error(e.message)
       }
     
     }
@@ -93,17 +93,13 @@ class UserController {
     async delete(req: Request, res: Response){
         try {
           const { id } = req.params;
-          const delUser = userRepository.delete(id);
-          return res.status(200).json("usuario deletado com sucesso");
-      } catch (error) {
-          console.log(error)    
+          await userRepository.delete(id);
+          return res.status(204).json("usuario deletado com sucesso");
+      } catch (e: any | unknown) {
+          console.log(e.message)
         }
     }
 
 };
 
 export default new UserController();
-
-
-
-
