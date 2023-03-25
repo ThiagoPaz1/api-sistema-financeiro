@@ -35,7 +35,7 @@ class TransactionController {
 
     const createTransaction = new TransactionService();
 
-    const transaction = createTransaction.create({
+    const transaction = await createTransaction.create({
       value,
       category,
       type,

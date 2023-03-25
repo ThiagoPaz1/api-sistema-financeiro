@@ -8,8 +8,8 @@ const transactionRouter = Router();
 transactionRouter.get('/transaction/', TransactionController.index);
 transactionRouter.get('/transaction/:id', TransactionController.transactionById);
 transactionRouter.put('/transaction/:id', TransactionController.update);
-transactionRouter.post('/transaction/transaction', TransactionController.create);
-transactionRouter.delete('/transaction/transaction', TransactionController.delete);
+transactionRouter.post('/transaction/create', TransactionController.create);
+transactionRouter.delete('/transaction/:id', TransactionController.delete);
 
 // loginRouter.post('/', validationLogin.validationFields, loginController.login)
 

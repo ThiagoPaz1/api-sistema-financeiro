@@ -17,7 +17,7 @@ export class User {
   @IsEmail()
   email!: string;
 
-  @Column({ unique: true })
+  @Column()
   @IsString()
   @IsStrongPassword(
     {
