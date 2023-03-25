@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { transactionRepository } from "../repository/transactionRepository";
 import { TransactionService } from "../services/TransactionService";
 import { TransactionRequest } from '../../interfaces/transactionRequest';
+import { UserService } from "../../user/services/UserService";
+import { userRepository } from '../../user/repository/userRepository';
 
 
 class TransactionController {
@@ -42,6 +44,34 @@ class TransactionController {
   } catch (e: any | unknown) {
     console.error(e.message);
   }
+ }
+
+ async createUserTransaction(req: Request, res: Response) {
+  const { value, category, type } = req.body;
+  const { user } = req.params 
+
+  try {
+    const userId = await userRepository.findOneBy({ id: user });
+
+    if (!userId) {
+      return res.status(404).json({ message: 'Usuário não encontrado!' });
+    }
+
+    const newUserTransaction = await transactionRepository.create({
+      value,
+      category,
+      type,
+      userId,
+    });
+
+    await transactionRepository.save(newUserTransaction);
+
+    return res.status(201).json(newUserTransaction);
+  } catch (e: any | unknown) {
+    console.error(e.message);
+  }
+
+  return res.status(201).json();
  }
 
  async update(req: Request, res: Response) {
