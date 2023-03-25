@@ -4,10 +4,15 @@ import { userRepository } from '../repository/userRepository';
 
 
 class UserService {
-  async create({ name, email, password }: UserRequest) {
+  async create({ id, name, email, password }: UserRequest) {
     if (!email) throw new Error('É requerido o email!');
 
-    const userAlreadyExists = await userRepository.findOneBy({ email });
+    const userAlreadyExists = await userRepository.findOne({
+      where: { id },
+      relations: {
+        transactions: true,
+      }
+     });
 
     if (userAlreadyExists) throw new Error('Usuário já cadastrado');
 
