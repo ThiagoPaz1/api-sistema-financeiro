@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import { transactionRepository } from "../repository/transactionRepository";
 import { TransactionService } from "../services/TransactionService";
+import { TransactionRequest } from '../../interfaces/transactionRequest';
 
 
 class TransactionController {
  async index(req: Request, res: Response) {
   try {
-    const findAll = await transactionRepository.find();
+    const findAll = await new TransactionService().findAll();
     return res.status(200).json(findAll);
   } catch (e: any | unknown) {
     return console.error(e.message);
@@ -15,13 +16,9 @@ class TransactionController {
 
  async transactionById(req: Request, res: Response) {
   try {
-    const { id } = req.params;
-    const findTransaction = await transactionRepository.findOne({
-      where: { id },
-      relations: {
-        userId: true,
-      },
-    });
+    const { id } = req.params as unknown as TransactionRequest;;
+    const idTransaction = id as unknown as TransactionRequest;
+    const findTransaction = await new TransactionService().findById(idTransaction);
 
     return res.status(200).json(findTransaction);
   } catch (e: any | unknown) {
@@ -52,18 +49,16 @@ class TransactionController {
     const { id } = req.params;
     const { value, category, type } = req.body;
 
-    const updateTransaction = await transactionRepository.update(
-      {
-        id,
-      },
-      {
-        value,
-        category,
-        type,
-      },
-    );
+    const updateTransaction = new TransactionService();
+    
+    const update = await updateTransaction.updateTransaction({
+      id,
+      value,
+      category,
+      type
+    });
 
-    return res.status(201).json(updateTransaction);
+    return res.status(201).json(update);
   } catch(e: any | unknown) {
     console.error(e.message);
   }

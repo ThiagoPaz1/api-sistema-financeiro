@@ -8,7 +8,12 @@ class TransactionService {
   }
 
   async findById({ id }: TransactionRequest) {
-    const findTransactionById = await transactionRepository.findOneBy({ id });
+    const findTransactionById = await transactionRepository.findOne({ where:
+      { id },
+      relations: {
+        userId: true
+      } 
+    });
     return findTransactionById;
   }
 
@@ -33,10 +38,6 @@ class TransactionService {
     })
 
     return updateTransaction;
-  }
-
-  async delete({ id } : TransactionRequest) {
-    await transactionRepository.delete({ id })
   }
 }
 
