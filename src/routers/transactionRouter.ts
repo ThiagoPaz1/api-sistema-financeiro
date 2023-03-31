@@ -10,6 +10,7 @@ transactionRouter.get('/transaction/:id', TransactionController.transactionById)
 transactionRouter.put('/transaction/:id', TransactionController.update);
 transactionRouter.post('/transaction/create', TransactionController.create);
 transactionRouter.delete('/transaction/:id', TransactionController.delete);
+transactionRouter.delete('/transaction/', TransactionController.deleteAllTransactions);
 
 // loginRouter.post('/', validationLogin.validationFields, loginController.login)
 

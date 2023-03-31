@@ -8,7 +8,7 @@ class AuthUserService {
     const user = await userRepository.findOneBy({ email });
 
     if (!user) {
-      throw new Error('Usuário/senha não existe!')
+      throw new Error('Usuário não existe!')
     };
 
     const passwordMatch = compareSync(password, user.password);

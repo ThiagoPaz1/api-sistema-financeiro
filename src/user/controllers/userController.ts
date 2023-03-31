@@ -1,11 +1,15 @@
-import { Request, Response} from "express";
+import { validate } from "class-validator";
+import { Request, Response, NextFunction } from 'express';
 import { userRepository } from '../repository/userRepository';
-import { UserService } from "../services/UserService";
 
 class UserController {
     async index(req: Request, res: Response) {
       try {
-        const findAll = await userRepository.find();
+        const findAll = await userRepository.find({
+          relations: {
+            transactions: true
+          }
+        });
         return res.status(200).json(findAll)
       } catch (e: any | unknown) {
         return console.error(e.message)
@@ -28,21 +32,27 @@ class UserController {
         }
     }
 
-    async create(req: Request, res: Response) {
+    async create(req: Request, res: Response, next: NextFunction) {
         try {
           const { name, email, password, } = req.body;
 
-          const createUser = new UserService();
-
-          const user = await createUser.create({
+          const user = userRepository.create({
             name,
             email,
             password
           });
-
-          return res.status(201).json(user);
+          const errors = await validate(user);
+          
+          if (errors.length > 0)
+            return res.status(404).json(errors);
+          await userRepository.save(user);
+          res.status(201).json(user);
+          return next();
         } catch (e: any | unknown) {
-          return console.error(e.message);
+          return res.status(404).json({ message: {
+            email: `Email já pertence a um usuário`,
+            error: e.detail
+          } });
         } 
     }
 
@@ -90,10 +100,20 @@ class UserController {
     
     }
 
-    async delete(req: Request, res: Response){
+    async delete(req: Request, res: Response) {
+      try {
+        const { id } = req.params
+        await userRepository.delete(id);
+        return res.status(204).json('usuario deletado com sucesso');
+      } catch (e: any | unknown) {
+        console.log(e.message);
+      }
+    }
+
+    async deleteAllUsers(req: Request, res: Response) {
         try {
-          const { id } = req.params;
-          await userRepository.delete(id);
+          const user = await userRepository.find() as unknown as string;
+          await userRepository.delete(user);
           return res.status(204).json("usuario deletado com sucesso");
       } catch (e: any | unknown) {
           console.log(e.message)

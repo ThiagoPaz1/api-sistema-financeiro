@@ -5,7 +5,7 @@ import { userRepository } from '../repository/userRepository';
 
 
 class UserService {
-  async create({ name, email, password }: UserRequest) {
+  async create({ name, email, password }: UserRequest): Promise<UserRequest> {
     if (!email) throw new Error('É requerido o email!');
 
     const userAlreadyExists = await userRepository.findOne({

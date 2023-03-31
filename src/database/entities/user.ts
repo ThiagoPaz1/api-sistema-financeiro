@@ -1,6 +1,6 @@
 import { Transactions } from './transactions';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { IsEmail, IsNumber, IsString, IsStrongPassword, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsNumber, IsOptional, IsString, IsStrongPassword, MaxLength, MinLength } from 'class-validator';
 
 @Entity('tb_user')
 export class User {
@@ -33,8 +33,8 @@ export class User {
   )
   password!: string;
 
-  @Column({ nullable: true })
-  @IsNumber()
+  @Column({ nullable: true, default: 0 })
+  @IsOptional()
   balance?: number;
 
   @OneToMany(() => Transactions, (transaction) => transaction.userId)

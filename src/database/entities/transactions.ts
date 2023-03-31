@@ -2,6 +2,12 @@ import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { User } from './user';
 
+export enum CardEnumType {
+  DEBIT = 'debit',
+  CREDIT = 'credit',
+}
+
+
 @Entity('tb_transaction')
 export class Transactions {
   @PrimaryGeneratedColumn()
@@ -17,7 +23,7 @@ export class Transactions {
   @IsOptional()
   category?: string;
 
-  @Column({ type: 'enum', enum: ['debit', 'credit'] })
+  @Column({ type: 'enum', enum: CardEnumType, default: CardEnumType.CREDIT })
   @IsOptional()
   @IsString()
   type?: number;
