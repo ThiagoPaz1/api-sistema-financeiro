@@ -1,12 +1,18 @@
 import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from './user';
 
 export enum CardEnumType {
   DEBIT = 'debit',
   CREDIT = 'credit',
 }
-
 
 @Entity('tb_transaction')
 export class Transactions {
@@ -42,4 +48,3 @@ export class Transactions {
   @ManyToOne(() => User, (user) => user.transactions)
   userId?: User;
 }
-
