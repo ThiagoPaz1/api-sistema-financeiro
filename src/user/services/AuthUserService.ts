@@ -17,7 +17,7 @@ class AuthUserService {
       throw new Error("Usuário/senha incorreto")
     };
 
-    const payload = { email: user.email, password: user.password };
+    const payload = { email: user.id, password: user.password };
     const options = { subject: user.email, expiresIn: '1d'};
     const secretKey = process.env.TOKEN_SECRET as string;
 
