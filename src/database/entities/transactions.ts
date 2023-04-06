@@ -10,8 +10,8 @@ import {
 import { User } from './user';
 
 export enum CardEnumType {
-  DEBIT = 'debit',
-  CREDIT = 'credit',
+  INPUT = 'debit',
+  OUTPUT = 'credit',
 }
 
 @Entity('tb_transaction')
@@ -29,7 +29,7 @@ export class Transactions {
   @IsOptional()
   category?: string;
 
-  @Column({ type: 'enum', enum: CardEnumType, default: CardEnumType.CREDIT })
+  @Column({ type: 'enum', enum: CardEnumType, default: CardEnumType.INPUT })
   @IsOptional()
   @IsString()
   type?: number;

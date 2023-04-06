@@ -58,7 +58,7 @@ class TransactionController {
       const userId = await userRepository.findOne({ where: { id } });
 
       if (!userId) {
-        return res.status(404).json({ message: 'Usuário não encontrado!' });
+        return res.status(400).json({ message: 'Usuário não encontrado!' });
       }
 
       const newUserTransaction = transactionRepository.create({
@@ -67,6 +67,29 @@ class TransactionController {
         type,
         userId,
       });
+
+      if (type === 'credit') {
+        const newBalance = (userId.balance -= value);
+
+        if (userId.balance >= 0) {
+          await userRepository.update(
+            {
+              id,
+            },
+            {
+              balance: newBalance,
+            },
+          );
+
+          await transactionRepository.save(newUserTransaction);
+          return res.status(201).json(newUserTransaction);
+        }
+
+        return res.status(400).json({
+          message: "Usuário não pode ter valor negativo na conta",
+          target: `Esta transação faz o usuário ter R$${userId.balance},00 no saldo`
+      });
+      }
 
       const newBalance = (userId.balance += value);
 
@@ -83,11 +106,9 @@ class TransactionController {
         await transactionRepository.save(newUserTransaction);
         return res.status(201).json(newUserTransaction);
       }
-
-      await transactionRepository.save(newUserTransaction);
-      return res.status(201).json(newUserTransaction);
+      return res.status(400).json({ message: ` Usuário possui R$${userId.balance},00 no saldo` });
     } catch (e: any | unknown) {
-      console.error(e.message);
+      return res.status(500).json({ message: `Erro no servidor ${e.message}` });
     }
 
     return res.status(201).json();
