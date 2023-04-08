@@ -1,7 +1,8 @@
-import { hashSync } from 'bcryptjs';
 import { UserRequest } from '../../interfaces/userRequest';
 import { transactionRepository } from '../../transactions/repository/transactionRepository';
 import { userRepository } from '../repository/userRepository';
+import { hashPassword } from '../../utils/crypto.util';
+import { Transactions } from '../../database/entities/transactions';
 
 
 class UserService {
@@ -14,7 +15,7 @@ class UserService {
 
     if (userAlreadyExists) throw new Error('Usuário já cadastrado');
 
-    const passwordHash = hashSync(password, 12);
+    const passwordHash = hashPassword(password);
 
     const user = userRepository.create({
       name,
@@ -25,7 +26,7 @@ class UserService {
     return userRepository.save(user);
   }
 
-  async createTransaction({ id, value, category, type }: any) {
+  async createTransaction({ id, value, category, type }: Transactions) {
     const idTransaction = await transactionRepository.findOneBy({ id });
 
     if (!idTransaction) {

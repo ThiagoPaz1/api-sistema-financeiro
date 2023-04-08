@@ -1,7 +1,8 @@
 import { userRepository } from '../repository/userRepository';
 import { AuthRequest } from '../../interfaces/authRequest';
-import { compareSync } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
+import { compareHashPassword } from '../../utils/crypto.util';
+
 
 class AuthUserService {
   async execute({email,  password}: AuthRequest) {
@@ -11,7 +12,7 @@ class AuthUserService {
       throw new Error('Usuário não existe!')
     };
 
-    const passwordMatch = compareSync(password, user.password);
+    const passwordMatch = compareHashPassword(password, user.password);
 
     if (!passwordMatch) {
       throw new Error("Usuário/senha incorreto")

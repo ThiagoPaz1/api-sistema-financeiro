@@ -1,7 +1,7 @@
-import { hashSync } from 'bcryptjs';
 import { validate } from 'class-validator';
 import { Request, Response, NextFunction } from 'express';
 import { userRepository } from '../repository/userRepository';
+import { hashPassword } from '../../utils/crypto.util';
 
 class UserController {
   async index(req: Request, res: Response) {
@@ -37,7 +37,7 @@ class UserController {
     try {
       const { name, email, password } = req.body;
 
-      const passwordHash = hashSync(password, 12);
+      const passwordHash = hashPassword(password);
 
       const user = userRepository.create({
         name,
