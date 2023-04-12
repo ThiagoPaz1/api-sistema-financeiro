@@ -10,8 +10,8 @@ import {
 import { User } from './user';
 
 export enum CardEnumType {
-  INPUT = 'debit',
-  OUTPUT = 'credit',
+  INPUT = 'credit',
+  OUTPUT = 'debit',
 }
 
 @Entity('tb_transaction')

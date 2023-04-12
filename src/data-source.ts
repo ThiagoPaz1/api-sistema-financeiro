@@ -11,6 +11,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   entities: [`${__dirname}/**/database/entities/*.{ts,js}`],
   migrations: [`${__dirname}/**/database/migrations/*.{ts,js}`],
+  migrationsRun: true,
   synchronize: true,
   logging: true,
   name: 'API Sistema Financeiro',
