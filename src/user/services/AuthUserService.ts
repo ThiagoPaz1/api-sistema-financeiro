@@ -4,6 +4,7 @@ import { sign } from 'jsonwebtoken';
 import { compareSync } from 'bcrypt';
 
 
+
 class AuthUserService {
   async execute({email,  password}: AuthRequest) {
     const user = await userRepository.findOneByOrFail({ email });
@@ -12,7 +13,7 @@ class AuthUserService {
       throw new Error('Usuário não existe!')
     };
 
-    const passwordMatch = compareSync(password, user.password);
+    const passwordMatch = compareHashPassword(password, user.password);
 
     if (!passwordMatch) {
       throw new Error("Usuário/senha incorreto")
