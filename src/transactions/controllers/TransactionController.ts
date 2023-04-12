@@ -69,9 +69,9 @@ class TransactionController {
       });
 
       if (type === 'credit') {
-        const newBalance = (userId.balance -= value);
+        const newBalance = (userId.balance += value);
 
-        if (userId.balance >= 0) {
+        if (userId.balance) {
           await userRepository.update(
             {
               id,
@@ -91,9 +91,9 @@ class TransactionController {
       });
       }
 
-      const newBalance = (userId.balance += value);
+      const newBalance = (userId.balance -= value);
 
-      if (userId.balance) {
+      if (userId.balance >= 0) {
         await userRepository.update(
           {
             id,

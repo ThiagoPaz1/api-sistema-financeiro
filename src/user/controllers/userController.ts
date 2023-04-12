@@ -1,7 +1,7 @@
 import { validate } from 'class-validator';
 import { Request, Response, NextFunction } from 'express';
 import { userRepository } from '../repository/userRepository';
-import { hashPassword } from '../../utils/crypto.util';
+import { hashSync } from 'bcrypt';
 
 class UserController {
   async index(req: Request, res: Response) {
@@ -37,7 +37,7 @@ class UserController {
     try {
       const { name, email, password } = req.body;
 
-      const passwordHash = hashPassword(password);
+      const passwordHash = hashSync(password, 15);
 
       const user = userRepository.create({
         name,
@@ -55,7 +55,7 @@ class UserController {
       return res.status(404).json({
         message: {
           email: `Email já pertence a um usuário`,
-          error: e.detail,
+          error: e.message,
         },
       });
     }

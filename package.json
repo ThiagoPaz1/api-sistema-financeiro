@@ -11,6 +11,7 @@
     "migration:run": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:run"
   },
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "cors": "^2.8.5",
@@ -23,6 +24,7 @@
     "typeorm": "0.3.10"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.14",
     "@types/jsonwebtoken": "^9.0.0",
