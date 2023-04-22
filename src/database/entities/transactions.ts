@@ -1,34 +1,50 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { User } from './user';
 
-@Entity('tb_transactios')
+export enum CardEnumType {
+  INPUT = 'credit',
+  OUTPUT = 'debit',
+}
+
+@Entity('tb_transaction')
 export class Transactions {
   @PrimaryGeneratedColumn()
   id?: string;
 
   @Column()
-  tile!: string;
+  @IsNumber()
+  @IsOptional()
+  value!: number;
 
   @Column()
-  value!: string;
+  @IsString()
+  @IsOptional()
+  category?: string;
 
-  @Column()
-  category!: string;
+  @Column({ type: 'enum', enum: CardEnumType, default: CardEnumType.INPUT })
+  @IsOptional()
+  @IsString()
+  type?: number;
 
-  // TODO implementar o array de Pagamentos Débito e Crédito para o type
-  @Column()
-  type!: string; // postgres não está aceitando arrays, depois vou verificar o motivo
-
-  @Column()
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
+  @IsDate()
   created_at?: Date;
 
-  @Column()
-  userId?: number; // TODO implementar relação -> chave extrangeira
-}
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
+  updated_at?: Date;
 
-class Payment {
-  @Column()
-  debit?: string;
-
-  @Column()
-  credit?: string;
+  @ManyToOne(() => User, (user) => user.transactions)
+  userId?: User;
 }

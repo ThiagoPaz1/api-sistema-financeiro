@@ -1,10 +1,12 @@
-import { Router } from "express"
-import { loginRouter } from "./loginRouter"
-import { userRouter } from "./userRouter"
+import { Router } from 'express';
+import { loginRouter } from './loginRouter';
+import { transactionRouter } from './transactionRouter';
+import { userRouter } from './userRouter';
 
-const router = Router()
+const router = Router();
 
-router.use('/user', userRouter)
-router.use('/login', loginRouter)
+router.use(userRouter);
+router.use(loginRouter);
+router.use(transactionRouter)
 
-export { router }
+export { router };

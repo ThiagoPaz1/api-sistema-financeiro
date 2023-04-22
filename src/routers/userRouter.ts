@@ -1,16 +1,19 @@
+import { verifyToken } from './../middleware/loginRequired';
 import { Router } from "express";
-import UserController from '../user/controllers/userController';
+import UserController from '../user/controllers/UserController';
+import AuthUserController from '../user/controllers/AuthUserController';
+import TransactionController from '../transactions/controllers/TransactionController';
 
 const userRouter = Router();
-// import { userController } from "../modules/user/controllers"
-// import { validations } from "../modules/user/controllers/middlewares"
 
-userRouter.get("/:id", UserController.userById);
-userRouter.post("/create",  UserController.create);
-userRouter.post("/logar",  UserController.login);
-userRouter.put("/update:id", UserController.update);
-userRouter.delete("/delete/:id", UserController.delete);
-
-// userRouter.post("/", validations.validationFields, userController.newUser)
+userRouter.get('/user/:id', verifyToken, UserController.userById);
+userRouter.get('/user/', verifyToken, UserController.index);
+userRouter.post('/user/create', UserController.create);
+// Rota de Login, requer um usuário criado na rota UserController.create para gerar o token de login
+userRouter.post('/user/session', AuthUserController.session);
+userRouter.post('/user/:id/transaction', TransactionController.createUserTransaction);
+userRouter.put('/user/update/:id', verifyToken, UserController.update);
+userRouter.delete('/user/delete/:id', verifyToken, UserController.delete);
+userRouter.delete('/user/deleteall/', verifyToken, UserController.deleteAllUsers);
 
 export { userRouter }
